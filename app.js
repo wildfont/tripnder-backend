@@ -9,6 +9,9 @@ app.use(cors());
 const authRouter = require("./routes/auth.routes");
 app.use("/auth", authRouter)
 
+const userRouter = require("./routes/user.routes");
+app.use("/users", userRouter)
+
 
 
 

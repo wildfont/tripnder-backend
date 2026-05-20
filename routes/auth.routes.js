@@ -9,7 +9,7 @@ const verifyToken = require("../middleware/auth.middlewares");
 
 router.post("/signup", async (req, res, next) => {
   console.log(req.body);
-  const { email, name, password } = req.body;
+  const { email, firstName, lastName, password } = req.body;
 
   if (!email || !password) {
     res
@@ -41,7 +41,8 @@ router.post("/signup", async (req, res, next) => {
 
     const newUser = {
       email: email,
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
       password: hashedPassword,
     };
 
