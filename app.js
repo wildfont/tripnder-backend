@@ -12,6 +12,9 @@ app.use("/auth", authRouter)
 const userRouter = require("./routes/user.routes");
 app.use("/users", userRouter)
 
+const destinationRouter = require("./routes/destination.routes")
+app.use("/destinations", destinationRouter)
+
 
 
 
