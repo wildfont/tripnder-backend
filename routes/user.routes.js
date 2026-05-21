@@ -13,15 +13,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:userId", async (req, res, next) => {
-  try {
-    const response = await User.findById(req.params.userId);
-    res.status(200).json(response);
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.put("/profile", verifyToken, async (req, res, next) => {
 
   try {
@@ -41,6 +32,15 @@ router.put("/profile", verifyToken, async (req, res, next) => {
     );
 
     res.status(200).json({ message: "User updated" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:userId", async (req, res, next) => {
+  try {
+    const response = await User.findById(req.params.userId);
+    res.status(200).json(response);
   } catch (error) {
     next(error);
   }

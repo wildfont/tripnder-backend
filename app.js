@@ -18,4 +18,7 @@ app.use("/destinations", destinationRouter);
 const connectionRouter = require("./routes/connection.routes");
 app.use("/connections", connectionRouter);
 
+const messageRouter = require("./routes/message.routes")
+app.use("/messages", messageRouter)
+
 module.exports = app;
