@@ -6,7 +6,11 @@ const verifyToken = require("../middleware/auth.middlewares");
 
 router.get("/", async (req, res, next) => {
   try {
-    const response = await User.find();
+    const filters = {};
+    if (req.query.destination) filters.destination = req.query.destination;
+    if (req.query.style) filters.travelStyle = req.query.style;
+
+    const response = await User.find(filters);
     res.status(200).json(response);
   } catch (error) {
     next(error);
@@ -14,7 +18,6 @@ router.get("/", async (req, res, next) => {
 });
 
 router.put("/profile", verifyToken, async (req, res, next) => {
-
   try {
     const updatedProfile = {
       firstName: req.body.firstName,
@@ -46,4 +49,4 @@ router.get("/:userId", async (req, res, next) => {
   }
 });
 
-module.exports = router
+module.exports = router;
