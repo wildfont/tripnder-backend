@@ -16,8 +16,13 @@ router.get("/", verifyToken, async (req, res, next) => {
     })
       .populate("requester", "firstName lastName")
       .populate("recipient", "firstName lastName");
-    const response = [...asRequester, ...asRecipient];
-    res.status(200).json(response);
+    const seen = new Set();
+    const unique = [...asRequester, ...asRecipient].filter((c) => {
+      if (seen.has(c._id.toString())) return false;
+      seen.add(c._id.toString());
+      return true;
+    });
+    res.status(200).json(unique);
   } catch (error) {
     next(error);
   }
@@ -49,12 +54,6 @@ router.post("/", verifyToken, async (req, res, next) => {
 
 router.put("/:id", verifyToken, async (req, res, next) => {
   try {
-    const updatedConnection = {
-      requester: req.body.requester,
-      recipient: req.body.recipient,
-      destination: req.body.destination,
-      status: req.body.status,
-    };
     const response = await Connection.findByIdAndUpdate(
       req.params.id,
       { status: req.body.status },
