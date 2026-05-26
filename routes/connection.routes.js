@@ -6,8 +6,16 @@ const verifyToken = require("../middleware/auth.middlewares");
 
 router.get("/", verifyToken, async (req, res, next) => {
   try {
-    const asRequester = await Connection.find({ requester: req.payload._id });
-    const asRecipient = await Connection.find({ recipient: req.payload._id });
+    const asRequester = await Connection.find({
+      requester: req.payload._id,
+    })
+      .populate("requester", "firstName lastName")
+      .populate("recipient", "firstName lastName");
+    const asRecipient = await Connection.find({
+      recipient: req.payload._id,
+    })
+      .populate("requester", "firstName lastName")
+      .populate("recipient", "firstName lastName");
     const response = [...asRequester, ...asRecipient];
     res.status(200).json(response);
   } catch (error) {
@@ -49,10 +57,11 @@ router.put("/:id", verifyToken, async (req, res, next) => {
     };
     const response = await Connection.findByIdAndUpdate(
       req.params.id,
-      updatedConnection,
+      { status: req.body.status },
+      { new: true },
     );
 
-    res.status(200).json({ message: "Connection updated" });
+    res.status(200).json(response);
   } catch (error) {
     next(error);
   }
