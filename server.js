@@ -13,7 +13,7 @@ const Message = require("./models/message.model.js");
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: { origin: process.env.ORIGIN || "http://localhost:5173" }
+  cors: { origin: process.env.ORIGIN || "http://localhost:5173" },
 });
 
 io.on("connection", (socket) => {
@@ -23,7 +23,11 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", async ({ connectionId, senderId, text }) => {
     try {
-      const message = await Message.create({ connection: connectionId, sender: senderId, text });
+      const message = await Message.create({
+        connection: connectionId,
+        sender: senderId,
+        text,
+      });
       io.to(connectionId).emit("new_message", message);
     } catch (err) {
       console.error(err);
@@ -35,6 +39,14 @@ async function startServer() {
   await connectDB();
   server.listen(process.env.PORT, () => {
     console.log(`Server listening on port ${process.env.PORT}`);
+    console.log(
+      "MONGODB_URI:",
+      process.env.MONGODB_URI ? "found" : "NOT FOUND",
+    );
+    console.log(
+      "TOKEN_SECRET:",
+      process.env.TOKEN_SECRET ? "found" : "NOT FOUND",
+    );
   });
 }
 startServer();
