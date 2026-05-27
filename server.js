@@ -8,7 +8,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 const connectDB = require("./db");
 const app = require("./app");
-const Message = require("./models/message.model.js");
+const Message = require("./models/Message.model.js");
 
 const server = http.createServer(app);
 
