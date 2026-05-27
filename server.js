@@ -13,7 +13,10 @@ const Message = require("./models/Message.model.js");
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: { origin: process.env.ORIGIN || "http://localhost:5173" },
+  cors: { 
+    origin: [process.env.ORIGIN, "http://localhost:5173"],
+    methods: ["GET", "POST"]
+  }
 });
 
 io.on("connection", (socket) => {

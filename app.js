@@ -1,10 +1,11 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
 
 app.use(express.json());
-
-const cors = require("cors");
-app.use(cors());
+app.use(cors({
+  origin: [process.env.ORIGIN, "http://localhost:5173"]
+}));
 
 const authRouter = require("./routes/auth.routes");
 app.use("/auth", authRouter);
@@ -18,7 +19,7 @@ app.use("/destinations", destinationRouter);
 const connectionRouter = require("./routes/connection.routes");
 app.use("/connections", connectionRouter);
 
-const messageRouter = require("./routes/message.routes")
-app.use("/messages", messageRouter)
+const messageRouter = require("./routes/message.routes");
+app.use("/messages", messageRouter);
 
 module.exports = app;
