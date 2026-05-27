@@ -1,7 +1,6 @@
 const router = require("express").Router();
 
-const Connection = require("../models/message.model.js");
-const Message = require("../models/message.model.js");
+const Message = require("../models/Message.model.js");
 
 const verifyToken = require("../middleware/auth.middlewares");
 
