@@ -1,7 +1,7 @@
 process.loadEnvFile(".env");
 const mongoose = require("mongoose");
 
-const User = require("./models/user.model.js");
+const User = require("./models/User.model.js");
 
 const connectDB = require("./db");
 
