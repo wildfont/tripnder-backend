@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const Connection = require("../models/Connection.model.js");
+const Connection = require("../models/connection.model.js");
 
 const verifyToken = require("../middleware/auth.middlewares");
 
@@ -9,13 +9,13 @@ router.get("/", verifyToken, async (req, res, next) => {
     const asRequester = await Connection.find({
       requester: req.payload._id,
     })
-      .populate("requester", "firstName lastName")
-      .populate("recipient", "firstName lastName");
+      .populate("requester", "firstName lastName avatar")
+      .populate("recipient", "firstName lastName avatar");
     const asRecipient = await Connection.find({
       recipient: req.payload._id,
     })
-      .populate("requester", "firstName lastName")
-      .populate("recipient", "firstName lastName");
+      .populate("requester", "firstName lastName avatar")
+      .populate("recipient", "firstName lastName avatar");
     const seen = new Set();
     const unique = [...asRequester, ...asRecipient].filter((c) => {
       if (seen.has(c._id.toString())) return false;
@@ -59,7 +59,6 @@ router.put("/:id", verifyToken, async (req, res, next) => {
       { status: req.body.status },
       { new: true },
     );
-
     res.status(200).json(response);
   } catch (error) {
     next(error);

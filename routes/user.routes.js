@@ -42,7 +42,9 @@ router.put("/profile", verifyToken, async (req, res, next) => {
 
 router.get("/:userId", async (req, res, next) => {
   try {
+    console.log("userId:", req.params.userId);
     const response = await User.findById(req.params.userId);
+    console.log("user found:", response);
     res.status(200).json(response);
   } catch (error) {
     next(error);
