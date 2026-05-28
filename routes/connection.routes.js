@@ -31,11 +31,14 @@ router.get("/", verifyToken, async (req, res, next) => {
 router.post("/", verifyToken, async (req, res, next) => {
   try {
     const recipientId = req.body.recipient;
+    const destinationId = req.body.destination;
+
     const existing = await Connection.findOne({
       requester: recipientId,
       recipient: req.payload._id,
     });
-    if (existing) {
+
+    if (existing && !destinationId) {
       existing.status = "accepted";
       await existing.save();
       res.status(200).json({ match: true, connection: existing });
@@ -44,6 +47,7 @@ router.post("/", verifyToken, async (req, res, next) => {
         requester: req.payload._id,
         recipient: recipientId,
         status: "pending",
+        destination: destinationId || undefined,
       });
       res.status(201).json({ match: false, connection: newConnection });
     }
