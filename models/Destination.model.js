@@ -20,9 +20,13 @@ const destinationSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    isOpen: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   },
 );
 

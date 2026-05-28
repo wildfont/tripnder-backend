@@ -13,6 +13,29 @@ router.get("/", verifyToken, async (req, res, next) => {
   }
 });
 
+router.get("/open", verifyToken, async (req, res, next) => {
+  try {
+    const response = await Destination.find({
+      isOpen: true,
+      owner: { $ne: req.payload._id },
+    }).populate("owner", "firstName lastName avatar");
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/:id/toggle", verifyToken, async (req, res, next) => {
+  try {
+    const destination = await Destination.findById(req.params.id);
+    destination.isOpen = !destination.isOpen;
+    await destination.save();
+    res.status(200).json(destination);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:id", verifyToken, async (req, res, next) => {
   try {
     const response = await Destination.findById(req.params.id);
