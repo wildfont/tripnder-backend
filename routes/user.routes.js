@@ -4,9 +4,9 @@ const User = require("../models/User.model.js");
 
 const verifyToken = require("../middleware/auth.middlewares");
 
-router.get("/", async (req, res, next) => {
+router.get("/", verifyToken, async (req, res, next) => {
   try {
-    const filters = {};
+    const filters = { _id: { $ne: req.payload._id } };
     if (req.query.destination) filters.destination = req.query.destination;
     if (req.query.style) filters.travelStyle = req.query.style;
 

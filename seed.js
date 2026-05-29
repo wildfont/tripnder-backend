@@ -1,6 +1,7 @@
 process.loadEnvFile(".env");
 const mongoose = require("mongoose");
 const User = require("./models/User.model.js");
+const Destination = require("./models/Destination.model.js");
 const connectDB = require("./db");
 const bcrypt = require("bcryptjs");
 
@@ -9,7 +10,9 @@ async function seed() {
   const hashedPassword = await bcrypt.hash("Banana99", 12);
 
   await User.deleteMany({});
-  await User.insertMany([
+  await Destination.deleteMany({});
+
+  const users = await User.insertMany([
     {
       firstName: "Esteban",
       lastName: "Quito",
@@ -19,7 +22,7 @@ async function seed() {
       budget: "Low",
       bio: "Gotta catch 'em all — and all the destinations too.",
       avatar: "https://i.pravatar.cc/300?img=67",
-      languages: ["EN", "JP"]
+      languages: ["EN", "JP"],
     },
     {
       firstName: "Seymore",
@@ -30,7 +33,7 @@ async function seed() {
       budget: "High",
       bio: "I travel in style. Always one step ahead.",
       avatar: "https://i.pravatar.cc/300?img=15",
-      languages: ["EN"]
+      languages: ["EN"],
     },
     {
       firstName: "Anna",
@@ -41,7 +44,7 @@ async function seed() {
       budget: "Medium",
       bio: "Water lover, beach explorer, always up for an adventure.",
       avatar: "https://i.pravatar.cc/300?img=5",
-      languages: ["EN", "FR"]
+      languages: ["EN", "FR"],
     },
     {
       firstName: "Al",
@@ -52,7 +55,7 @@ async function seed() {
       budget: "Medium",
       bio: "Food lover and cultural explorer. Best travel chef around.",
       avatar: "https://i.pravatar.cc/300?img=3",
-      languages: ["EN", "ES"]
+      languages: ["EN", "ES"],
     },
     {
       firstName: "Lola",
@@ -63,7 +66,7 @@ async function seed() {
       budget: "Low",
       bio: "Solo traveler from Barcelona. Markets, street food and sunsets.",
       avatar: "https://i.pravatar.cc/300?img=24",
-      languages: ["EN", "ES", "CA"]
+      languages: ["EN", "ES", "CA"],
     },
     {
       firstName: "Kara",
@@ -74,7 +77,7 @@ async function seed() {
       budget: "High",
       bio: "First time in Europe. Looking for someone to explore with.",
       avatar: "https://i.pravatar.cc/300?img=25",
-      languages: ["EN", "JP"]
+      languages: ["EN", "JP"],
     },
     {
       firstName: "Mario",
@@ -85,7 +88,7 @@ async function seed() {
       budget: "Low",
       bio: "Hiking, camping and meeting people from all over the world.",
       avatar: "https://i.pravatar.cc/300?img=68",
-      languages: ["EN", "IT"]
+      languages: ["EN", "IT"],
     },
     {
       firstName: "Lena",
@@ -96,12 +99,195 @@ async function seed() {
       budget: "Medium",
       bio: "Travel photographer. Always looking for the perfect shot.",
       avatar: "https://i.pravatar.cc/300?img=23",
-      languages: ["EN", "DE"]
+      languages: ["EN", "DE"],
+    },
+  ]);
+
+  await Destination.insertMany([
+    {
+      city: "Tokyo",
+      country: "Japan",
+      flag: "🇯🇵",
+      dateFrom: "2026-06-15",
+      dateTo: "2026-06-30",
+      owner: users[0]._id,
+      isOpen: true,
+    },
+    {
+      city: "Kyoto",
+      country: "Japan",
+      flag: "🇯🇵",
+      dateFrom: "2026-07-01",
+      dateTo: "2026-07-10",
+      owner: users[0]._id,
+      isOpen: false,
+    },
+    {
+      city: "Paris",
+      country: "France",
+      flag: "🇫🇷",
+      dateFrom: "2026-07-14",
+      dateTo: "2026-07-21",
+      owner: users[1]._id,
+      isOpen: true,
+    },
+    {
+      city: "Nice",
+      country: "France",
+      flag: "🇫🇷",
+      dateFrom: "2026-08-01",
+      dateTo: "2026-08-10",
+      owner: users[1]._id,
+      isOpen: false,
+    },
+    {
+      city: "Bali",
+      country: "Indonesia",
+      flag: "🇮🇩",
+      dateFrom: "2026-06-20",
+      dateTo: "2026-07-05",
+      owner: users[2]._id,
+      isOpen: true,
+    },
+    {
+      city: "Bangkok",
+      country: "Thailand",
+      flag: "🇹🇭",
+      dateFrom: "2026-09-01",
+      dateTo: "2026-09-15",
+      owner: users[2]._id,
+      isOpen: true,
+    },
+    {
+      city: "Rome",
+      country: "Italy",
+      flag: "🇮🇹",
+      dateFrom: "2026-07-10",
+      dateTo: "2026-07-20",
+      owner: users[3]._id,
+      isOpen: true,
+    },
+    {
+      city: "Barcelona",
+      country: "Spain",
+      flag: "🇪🇸",
+      dateFrom: "2026-08-15",
+      dateTo: "2026-08-22",
+      owner: users[3]._id,
+      isOpen: false,
+    },
+    {
+      city: "Marrakech",
+      country: "Morocco",
+      flag: "🇲🇦",
+      dateFrom: "2026-10-01",
+      dateTo: "2026-10-10",
+      owner: users[4]._id,
+      isOpen: true,
+    },
+    {
+      city: "Lisbon",
+      country: "Portugal",
+      flag: "🇵🇹",
+      dateFrom: "2026-06-25",
+      dateTo: "2026-07-02",
+      owner: users[4]._id,
+      isOpen: true,
+    },
+    {
+      city: "New York",
+      country: "USA",
+      flag: "🇺🇸",
+      dateFrom: "2026-11-01",
+      dateTo: "2026-11-10",
+      owner: users[5]._id,
+      isOpen: true,
+    },
+    {
+      city: "Sydney",
+      country: "Australia",
+      flag: "🇦🇺",
+      dateFrom: "2026-12-20",
+      dateTo: "2027-01-05",
+      owner: users[5]._id,
+      isOpen: false,
+    },
+    {
+      city: "Machu Picchu",
+      country: "Peru",
+      flag: "🇵🇪",
+      dateFrom: "2026-08-10",
+      dateTo: "2026-08-20",
+      owner: users[6]._id,
+      isOpen: true,
+    },
+    {
+      city: "Buenos Aires",
+      country: "Argentina",
+      flag: "🇦🇷",
+      dateFrom: "2026-09-15",
+      dateTo: "2026-09-25",
+      owner: users[6]._id,
+      isOpen: true,
+    },
+    {
+      city: "Berlin",
+      country: "Germany",
+      flag: "🇩🇪",
+      dateFrom: "2026-07-20",
+      dateTo: "2026-07-28",
+      owner: users[7]._id,
+      isOpen: true,
+    },
+    {
+      city: "Amsterdam",
+      country: "Netherlands",
+      flag: "🇳🇱",
+      dateFrom: "2026-08-05",
+      dateTo: "2026-08-12",
+      owner: users[7]._id,
+      isOpen: false,
+    },
+    {
+      city: "Cape Town",
+      country: "South Africa",
+      flag: "🇿🇦",
+      dateFrom: "2026-10-15",
+      dateTo: "2026-10-25",
+      owner: users[0]._id,
+      isOpen: true,
+    },
+    {
+      city: "Dubai",
+      country: "UAE",
+      flag: "🇦🇪",
+      dateFrom: "2026-11-20",
+      dateTo: "2026-11-28",
+      owner: users[1]._id,
+      isOpen: true,
+    },
+    {
+      city: "Reykjavik",
+      country: "Iceland",
+      flag: "🇮🇸",
+      dateFrom: "2026-09-01",
+      dateTo: "2026-09-08",
+      owner: users[2]._id,
+      isOpen: true,
+    },
+    {
+      city: "Santorini",
+      country: "Greece",
+      flag: "🇬🇷",
+      dateFrom: "2026-07-15",
+      dateTo: "2026-07-22",
+      owner: users[3]._id,
+      isOpen: true,
     },
   ]);
 
   mongoose.connection.close();
-  console.log("Seed completed!");
+  console.log("Seed completed! 8 users + 20 destinations created.");
 }
 
 seed();
