@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const Connection = require("../models/connection.model.js");
+const Connection = require("../models/Connection.model.js");
 
 const verifyToken = require("../middleware/auth.middlewares");
 
